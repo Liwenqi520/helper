@@ -1,9 +1,11 @@
 module github.com/Liwenqi520/helper
 
-go 1.18
+go 1.22.6
 
 require (
-	github.com/aliyun/alibaba-cloud-sdk-go v1.63.79
+	github.com/Liwenqi520/errorx v0.0.0-20250113023710-aacf3469eb26
+	github.com/Liwenqi520/redisx v0.0.0-20250113061443-5aee65ca9b3a
+	github.com/aliyun/alibaba-cloud-sdk-go v1.63.80
 	github.com/bwmarrin/snowflake v0.3.0
 	github.com/go-gomail/gomail v0.0.0-20160411212932-81ebce5c23df
 	github.com/shirou/gopsutil v2.21.11+incompatible
@@ -13,13 +15,17 @@ require (
 )
 
 require (
+	github.com/cespare/xxhash/v2 v2.1.2 // indirect
+	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/go-ole/go-ole v1.2.6 // indirect
+	github.com/go-redis/redis/v8 v8.11.5 // indirect
 	github.com/golang-jwt/jwt/v4 v4.4.1 // indirect
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/opentracing/opentracing-go v1.2.1-0.20220228012449-10b1cf09e00b // indirect
+	github.com/pkg/errors v0.9.1 // indirect
 	github.com/tklauser/go-sysconf v0.3.14 // indirect
 	github.com/tklauser/numcpus v0.8.0 // indirect
 	github.com/yusufpapurcu/wmi v1.2.4 // indirect
