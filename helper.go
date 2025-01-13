@@ -1,7 +1,7 @@
 package helper
 
 import (
-	"brewing-sass/gopkg/logger"
+	// "brewing-sass/gopkg/logger"
 	"bytes"
 	"context"
 	"crypto/aes"
@@ -31,7 +31,7 @@ import (
 	"github.com/aliyun/alibaba-cloud-sdk-go/sdk"
 	"github.com/aliyun/alibaba-cloud-sdk-go/sdk/requests"
 	"github.com/go-gomail/gomail"
-	"github.com/lionsoul2014/ip2region/binding/golang/ip2region"
+	// "github.com/lionsoul2014/ip2region/binding/golang/ip2region"
 	"github.com/shirou/gopsutil/cpu"
 	"github.com/shirou/gopsutil/mem"
 	"github.com/shirou/gopsutil/net"
@@ -844,8 +844,6 @@ func calc(postfixExpress []string) (result float64, err error) {
 /*-----------------网络请求----------------*/
 // PostJSON 发送post 请求 timeout 单位 秒
 func PostJSON(ctx context.Context, url string, data interface{}, header map[string]string, timeout time.Duration) (res []byte, err error) {
-	spanCtx := logger.Start(ctx, "Helper post json")
-	defer logger.End(spanCtx)
 	buf, err := json.Marshal(data)
 	if err != nil {
 		return res, err
@@ -858,7 +856,6 @@ func PostJSON(ctx context.Context, url string, data interface{}, header map[stri
 	for key, value := range header {
 		request.Header.Set(key, value)
 	}
-	logger.HttpInject(spanCtx, request)
 	client := &http.Client{}
 	client.Timeout = time.Second * timeout
 	resp, err := client.Do(request)
@@ -873,8 +870,6 @@ func PostJSON(ctx context.Context, url string, data interface{}, header map[stri
 	return respData, nil
 }
 func PostFormUrlencoded(ctx context.Context, url string, data string, header map[string]string, timeout time.Duration) (res []byte, err error) {
-	spanCtx := logger.Start(ctx, "PostFormUrlencoded json")
-	defer logger.End(spanCtx)
 	request, err := http.NewRequest("POST", url, strings.NewReader(data))
 	if err != nil {
 		return res, err
@@ -883,7 +878,6 @@ func PostFormUrlencoded(ctx context.Context, url string, data string, header map
 	for key, value := range header {
 		request.Header.Set(key, value)
 	}
-	logger.HttpInject(spanCtx, request)
 	client := &http.Client{}
 	resp, err := client.Do(request)
 	if err != nil {
@@ -899,8 +893,6 @@ func PostFormUrlencoded(ctx context.Context, url string, data string, header map
 
 // HTTPGet 发送get 请求 timeout 单位 秒
 func HTTPGet(ctx context.Context, url string, header map[string]string, timeout time.Duration) (res []byte, err error) {
-	spanCtx := logger.Start(ctx, "helper get json")
-	defer logger.End(spanCtx)
 	request, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		return res, err
@@ -909,7 +901,6 @@ func HTTPGet(ctx context.Context, url string, header map[string]string, timeout 
 	for key, value := range header {
 		request.Header.Set(key, value)
 	}
-	logger.HttpInject(spanCtx, request)
 	client := &http.Client{}
 	client.Timeout = time.Second * timeout
 	resp, err := client.Do(request)
@@ -955,19 +946,6 @@ func GetIP(req *http.Request) (IP string) {
 		remoteAddr = "127.0.0.1"
 	}
 	return remoteAddr
-}
-
-//GetIPRegion 获取IP对应的城市名称
-func GetIPRegion(req *http.Request) (ipInfo ip2region.IpInfo, err error) {
-	region, err := ip2region.New("./lib/ip2region.db")
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	defer region.Close()
-	IPAddr := GetIP(req)
-	Region, err := region.MemorySearch(IPAddr)
-	return Region, err
 }
 
 /*-----------------------SMS---------------------*/
